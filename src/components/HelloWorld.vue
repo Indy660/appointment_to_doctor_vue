@@ -1,58 +1,249 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <b-container>
+        <b-row class="justify-content-md-center mt-4">
+            <b-col col md="8">
+                <b-card
+                  header="Форма записи к врачу"
+                  header-bg-variant="primary"
+                  header-text-variant="white"
+                >
+                    <b-card-text>
+                        <b-form @submit.prevent="onSumbit">
+<!--                            <b-form-group-->
+<!--                                description="Введите ваше ФИО"-->
+<!--                                tabel="Ваше ФИО"-->
+<!--                            >-->
+<!--                                <b-form-input-->
+<!--                                    type="text">-->
+<!--                                </b-form-input>-->
+<!--                            </b-form-group>-->
+<!--                            <b-form-group-->
+<!--                                description="Введите ваш возраст"-->
+<!--                                tabel="Ваш возраст"-->
+<!--                            >-->
+<!--                                <b-form-input-->
+<!--                                    type="number"-->
+<!--                                ></b-form-input>-->
+<!--                            </b-form-group>-->
+<!--                            <b-form-group-->
+<!--                                description="Введите дату записи"-->
+<!--                                tabel="Ваше дату"-->
+<!--                            >-->
+<!--                                <b-form-input-->
+<!--                                    type="date">-->
+<!--                                </b-form-input>-->
+<!--                            </b-form-group>-->
+<!--                            <b-form-group-->
+<!--                                description="Введите город проживания"-->
+<!--                                tabel="Ваш город"-->
+<!--                            >-->
+<!--                                <b-form-input-->
+<!--                                    type="text"-->
+<!--                                ></b-form-input>-->
+<!--                            </b-form-group>-->
+<!--                            <b-form-group-->
+<!--                                description="Введите время записи"-->
+<!--                                tabel="Время записи"-->
+<!--                            >-->
+<!--                                <b-form-input-->
+<!--                                    type="number"-->
+<!--                                ></b-form-input>-->
+<!--                            </b-form-group>-->
+                            <div v-for="(input, key, index) in inputs" :key="index">
+                                <b-form-group
+                                    :description=input.description
+                                    :tabel=input.tabel
+                                >
+                                    <b-form-input
+                                        :type=input.type
+                                        :state=input.state
+                                        v-model="input.input_value"
+                                        @update="input.rules(key)"
+                                    >
+                                    </b-form-input>
+                                    <b-form-invalid-feedback>
+                                       {{ input.mistake }}
+                                    </b-form-invalid-feedback>
+                                </b-form-group>
+                            </div>
+
+                            <b-form-group
+                                    description="Выерите время записи"
+                                    tabel="Время записи"
+                            >
+                                <b-row class="mb-3">
+                                    <b-col md="4">
+                                        <b-form-select v-model="timeBegin" :options="timeZone"></b-form-select>
+<!--                                        <b-form-timepicker v-model="timeBegan"></b-form-timepicker>-->
+                                    </b-col>
+
+                                    <b-col md="4">
+                                        <b-form-select v-model="timeEnd" :options="timeZone"></b-form-select>
+<!--                                        <b-form-timepicker v-model="timeEnd"></b-form-timepicker>-->
+                                    </b-col>
+                                    <b-button type="submit" :disabled="disableButton" variant="outline-primary">Создать запись</b-button>
+                                </b-row>
+                            </b-form-group>
+                            <b-form-group>
+<!--                                <b-button type="submit" :disabled="disableButton" variant="outline-primary">Создать запись</b-button>-->
+                            </b-form-group>
+                        </b-form>
+                    </b-card-text>
+                </b-card>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+    name: 'HelloWorld',
+    props: {
+        msg: String
+    },
+    data() {
+        return {
+            inputs: {
+                1: {
+                    id: 1,
+                    input_value: '',
+                    type: 'text',
+                    description: 'Введите ваше ФИО',
+                    tabel: 'Ваше ФИО',
+                    state: null,
+                    mistake: 'Заполните форму',
+                    rules: ((key) => { this.rulesInputName(key) })
+                },
+                2: {
+                    id: 2,
+                    input_value: 0,
+                    type: 'number',
+                    description: 'Введите ваш возраст',
+                    tabel: 'Ваш возраст',
+                    state: null,
+                    mistake: 'Укажите возраст',
+                    rules: ((key) => { this.rulesInputAge(key) })
+
+                },
+                3: {
+                    id: 3,
+                    input_value: '',
+                    type: 'date',
+                    description: 'Введите дату записи',
+                    tabel: 'Ваше дату',
+                    state: null,
+                    mistake: 'Заполните форму',
+                    rules: ((key) => { this.rulesInputDate(key) })
+                },
+                4: {
+                    id: 4,
+                    input_value: '',
+                    type: 'text',
+                    description: 'Введите город проживания',
+                    tabel: 'Ваш город',
+                    state: null,
+                    mistake: 'Заполните форму',
+                    rules: ((key) => { this.rulesInputCity(key) })
+                },
+                // 5: {
+                //     id: 5,
+                //     input_value: '',
+                //     type: 'text',
+                //     description: 'Введите время записи',
+                //     tabel: 'Время записи',
+                //     state: null,
+                //     mistake: 'Заполните форму',
+                //     rules: (() => { this.rulesInputName() })
+                // },
+            },
+            timeZone: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
+            timeBegin: '',
+            timeEnd: '',
+            disableButton: true
+        }
+    },
+    watch: {
+        timeBegin: {
+            handler() {
+                this.checkForms()
+            }
+        },
+        timeEnd: {
+            handler() {
+                this.checkForms()
+            }
+        }
+    },
+    methods: {
+        checkForms() {
+            // console.log('checkForms')
+            for (const key in this.inputs) {
+                // console.log(key, this.inputs[key], this.inputs[key].state)
+                if (this.inputs[key].state === false || this.inputs[key].state === null) {
+                    this.disableButton = true;
+                    return
+                }
+            }
+            if (this.checkTime() === true) {
+                this.disableButton = false
+            } else {
+                this.disableButton = true;
+            }
+        },
+        rulesInputName(key) {
+            //знаю, что можно сломать инпуты эту регулярку
+            if (this.inputs[key].input_value.length > 4 &&
+                this.inputs[key].input_value.includes(" ") &&
+                this.inputs[key].input_value.replace(/[^a-zA-ZА-Яа-я]/g, "").length >= 4
+            ) {
+                this.$set(this.inputs[key], 'state', true)
+            } else if (this.inputs[key].input_value.length === 0) {
+                this.$set(this.inputs[key], 'state', null)
+            } else {
+                this.$set(this.inputs[key], 'state', false)
+            }
+            this.checkForms()
+        },
+        rulesInputAge(key) {
+            if (this.inputs[key].input_value) {
+                this.$set(this.inputs[key], 'state', true)
+            } else {
+                this.$set(this.inputs[key], 'state', false)
+            }
+            this.checkForms()
+        },
+        rulesInputDate(key) {
+            if (this.inputs[key].input_value.length > 0) {
+                this.$set(this.inputs[key], 'state', true)
+            } else {
+                this.$set(this.inputs[key], 'state', false)
+            }
+            this.checkForms()
+        },
+        rulesInputCity(key) {
+            if (this.inputs[key].input_value.length > 0) {
+                this.$set(this.inputs[key], 'state', true)
+            } else {
+                this.$set(this.inputs[key], 'state', false)
+            }
+            this.checkForms()
+        },
+        checkTime() {
+            const timeBegin = this.timeBegin.slice(0, 2);
+            const timeEnd = this.timeEnd.slice(0, 2);
+            // console.log(timeBegin, timeEnd)
+            // console.log(parseInt(timeEnd) > parseInt(timeBegin))
+            if (parseInt(timeEnd) > parseInt(timeBegin)) {
+                return true
+            } else {
+                return false
+            }
+        }
+    },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<!--<style scoped>-->
+
+<!--</style>-->

@@ -8,65 +8,39 @@
                   header-text-variant="white"
                 >
                     <b-card-text>
-                        <b-form @submit.prevent="onSumbit">
-<!--                            <b-form-group-->
-<!--                                description="Введите ваше ФИО"-->
-<!--                                tabel="Ваше ФИО"-->
-<!--                            >-->
-<!--                                <b-form-input-->
-<!--                                    type="text">-->
-<!--                                </b-form-input>-->
-<!--                            </b-form-group>-->
-<!--                            <b-form-group-->
-<!--                                description="Введите ваш возраст"-->
-<!--                                tabel="Ваш возраст"-->
-<!--                            >-->
-<!--                                <b-form-input-->
-<!--                                    type="number"-->
-<!--                                ></b-form-input>-->
-<!--                            </b-form-group>-->
-<!--                            <b-form-group-->
-<!--                                description="Введите дату записи"-->
-<!--                                tabel="Ваше дату"-->
-<!--                            >-->
-<!--                                <b-form-input-->
-<!--                                    type="date">-->
-<!--                                </b-form-input>-->
-<!--                            </b-form-group>-->
-<!--                            <b-form-group-->
-<!--                                description="Введите город проживания"-->
-<!--                                tabel="Ваш город"-->
-<!--                            >-->
-<!--                                <b-form-input-->
-<!--                                    type="text"-->
-<!--                                ></b-form-input>-->
-<!--                            </b-form-group>-->
-<!--                            <b-form-group-->
-<!--                                description="Введите время записи"-->
-<!--                                tabel="Время записи"-->
-<!--                            >-->
-<!--                                <b-form-input-->
-<!--                                    type="number"-->
-<!--                                ></b-form-input>-->
-<!--                            </b-form-group>-->
+                        <b-form @submit.prevent="appointment()">
                             <div v-for="(input, key, index) in inputs" :key="index">
-                                <b-form-group
-                                    :description=input.description
-                                    :tabel=input.tabel
-                                >
-                                    <b-form-input
-                                        :type=input.type
-                                        :state=input.state
-                                        v-model="input.input_value"
-                                        @update="input.rules(key)"
+                                <template v-if="input.type === 'seek_city'">
+                                    <b-form-group
+                                        :description=input.description
                                     >
-                                    </b-form-input>
-                                    <b-form-invalid-feedback>
-                                       {{ input.mistake }}
-                                    </b-form-invalid-feedback>
-                                </b-form-group>
+                                        <vue-dadata
+                                            :locationOptions="{country: 'Россия'}"
+                                            :placeholder="input.tabel"
+                                            :onChange="rulesInputCity"
+                                            token="9a2454c5d3d8b2533223166390a270ac89e3b912"
+                                        ></vue-dadata>
+                                    </b-form-group>
+                                </template>
+                                <template v-else>
+                                    <b-form-group
+                                        :description=input.description
+                                        :tabel=input.tabel
+                                    >
+                                        <b-form-input
+                                            :placeholder="input.tabel"
+                                            :type=input.type
+                                            :state=input.state
+                                            v-model="input.input_value"
+                                            @update="input.rules(key)"
+                                        >
+                                        </b-form-input>
+                                        <b-form-invalid-feedback>
+                                            {{ input.mistake }}
+                                        </b-form-invalid-feedback>
+                                    </b-form-group>
+                                </template>
                             </div>
-
                             <b-form-group
                                     description="Выерите время записи"
                                     tabel="Время записи"
@@ -74,18 +48,14 @@
                                 <b-row class="mb-3">
                                     <b-col md="4">
                                         <b-form-select v-model="timeBegin" :options="timeZone"></b-form-select>
-<!--                                        <b-form-timepicker v-model="timeBegan"></b-form-timepicker>-->
                                     </b-col>
-
                                     <b-col md="4">
                                         <b-form-select v-model="timeEnd" :options="timeZone"></b-form-select>
-<!--                                        <b-form-timepicker v-model="timeEnd"></b-form-timepicker>-->
                                     </b-col>
                                     <b-button type="submit" :disabled="disableButton" variant="outline-primary">Создать запись</b-button>
                                 </b-row>
                             </b-form-group>
                             <b-form-group>
-<!--                                <b-button type="submit" :disabled="disableButton" variant="outline-primary">Создать запись</b-button>-->
                             </b-form-group>
                         </b-form>
                     </b-card-text>
@@ -96,10 +66,11 @@
 </template>
 
 <script>
+import VueDadata from 'vue-dadata'
 export default {
-    name: 'HelloWorld',
-    props: {
-        msg: String
+    name: 'MainForm',
+    components: {
+        'vue-dadata': VueDadata,
     },
     data() {
         return {
@@ -138,7 +109,7 @@ export default {
                 4: {
                     id: 4,
                     input_value: '',
-                    type: 'text',
+                    type: 'seek_city',
                     description: 'Введите город проживания',
                     tabel: 'Ваш город',
                     state: null,
@@ -172,8 +143,19 @@ export default {
             handler() {
                 this.checkForms()
             }
-        }
+        },
+        // input_value_city: {
+        //     handler() {
+        //         console.log(1)
+        //         this.checkForms()
+        //     }
+        // }
     },
+    // computed: {
+    //     input_value_city() {
+    //         return this.inputs[4].input_value
+    //     }
+    // },
     methods: {
         checkForms() {
             // console.log('checkForms')
@@ -220,12 +202,11 @@ export default {
             }
             this.checkForms()
         },
-        rulesInputCity(key) {
-            if (this.inputs[key].input_value.length > 0) {
-                this.$set(this.inputs[key], 'state', true)
-            } else {
-                this.$set(this.inputs[key], 'state', false)
-            }
+        rulesInputCity(callback) {
+            //не совсем понимаю, как отследить удаление выбранного типа
+            // console.log(key)
+            this.inputs[4].input_value = callback.value;
+            this.$set(this.inputs[4], 'state', true);
             this.checkForms()
         },
         checkTime() {
@@ -238,6 +219,9 @@ export default {
             } else {
                 return false
             }
+        },
+        appointment() {
+            this.$router.push('/success')
         }
     },
 }

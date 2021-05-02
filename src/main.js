@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+// import VueRoter from 'vue-router'
 
 Vue.config.productionTip = false
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -7,9 +8,13 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import router from './router'
 Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+// export default new
+// import VueDadata from 'vue-dadata'
+// Vue.use(VueDadata)
 new Vue({
-    render: h => h(App),
+    router,
+    render: h => h(App)
 }).$mount('#app')

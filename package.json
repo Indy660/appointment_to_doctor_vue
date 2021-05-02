@@ -12,7 +12,8 @@
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "vue": "^2.6.12",
-    "vue-dadata": "^1.4.10"
+    "vue-dadata": "^1.4.10",
+    "vue-router": "^3.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.0",
@@ -36,7 +37,10 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "indent": ["error", 4]
+      "indent": [
+        "error",
+        4
+      ]
     }
   },
   "browserslist": [

@@ -14,12 +14,7 @@
                                     <b-form-group
                                         :description=input.description
                                     >
-                                        <vue-dadata
-                                            :locationOptions="{country: 'Россия'}"
-                                            :placeholder="input.tabel"
-                                            :onChange="rulesInputCity"
-                                            token="9a2454c5d3d8b2533223166390a270ac89e3b912"
-                                        ></vue-dadata>
+                                        <DaDataComponent :placeholder="input.tabel" :func="rulesInputCity"/>
                                     </b-form-group>
                                 </template>
                                 <template v-else>
@@ -66,11 +61,11 @@
 </template>
 
 <script>
-import VueDadata from 'vue-dadata'
+import DaDataComponent from '../components/DaDataComponent'
 export default {
     name: 'MainForm',
     components: {
-        'vue-dadata': VueDadata,
+        DaDataComponent
     },
     data() {
         return {
@@ -270,8 +265,3 @@ export default {
     },
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<!--<style scoped>-->
-
-<!--</style>-->

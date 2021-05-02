@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from './store'
 import App from './App.vue'
 
 Vue.config.productionTip = false
@@ -14,6 +15,7 @@ Vue.use(IconsPlugin)
 // import VueDadata from 'vue-dadata'
 // Vue.use(VueDadata)
 new Vue({
+    store,
     router,
     render: h => h(App)
 }).$mount('#app')

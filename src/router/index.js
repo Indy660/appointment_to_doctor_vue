@@ -18,7 +18,8 @@ const router = new VueRouter({
         {
             path: '/success',
             name: 'Success',
-            component: SuccessForm
+            component: SuccessForm,
+            props: true
         },
         {
             path: '/error',

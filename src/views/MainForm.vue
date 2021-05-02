@@ -101,7 +101,7 @@ export default {
                     input_value: '',
                     type: 'date',
                     description: 'Введите дату записи',
-                    tabel: 'Ваше дату',
+                    tabel: 'Ваша дату',
                     state: null,
                     mistake: 'Заполните форму',
                     rules: ((key) => { this.rulesInputDate(key) })
@@ -114,23 +114,13 @@ export default {
                     tabel: 'Ваш город',
                     state: null,
                     mistake: 'Заполните форму',
-                    rules: ((key) => { this.rulesInputCity(key) })
+                    // rules: ((key) => { this.rulesInputCity(key) })
                 },
-                // 5: {
-                //     id: 5,
-                //     input_value: '',
-                //     type: 'text',
-                //     description: 'Введите время записи',
-                //     tabel: 'Время записи',
-                //     state: null,
-                //     mistake: 'Заполните форму',
-                //     rules: (() => { this.rulesInputName() })
-                // },
             },
-            timeZone: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
             timeBegin: '',
             timeEnd: '',
-            disableButton: true
+            disableButton: true,
+            timeZone: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
         }
     },
     watch: {
@@ -151,11 +141,30 @@ export default {
         //     }
         // }
     },
-    // computed: {
-    //     input_value_city() {
-    //         return this.inputs[4].input_value
-    //     }
-    // },
+    computed: {
+        // input_value_city() {
+        //     return this.inputs[4].input_value
+        // }
+        // inputs() {
+        //     return this.$store.state.inputs
+        // },
+        // timeBegin: {
+        //     get() {
+        //         return this.$store.state.timeBegin
+        //     },
+        //     set(value) {
+        //         this.$store.commit('updateTimeBegin', value)
+        //     }
+        // },
+        // timeEnd: {
+        //     get() {
+        //         return this.$store.state.timeEnd
+        //     },
+        //     set(value) {
+        //         this.$store.commit('updateTimeEnd', value)
+        //     }
+        // }
+    },
     methods: {
         checkForms() {
             // console.log('checkForms')
@@ -186,11 +195,32 @@ export default {
             }
             this.checkForms()
         },
+        // rulesInputName(key) {
+        //     console.log('rulesInputName', key)
+        //     //знаю, что можно сломать инпуты эту регулярку
+        //     if (this.inputs[key].input_value.length > 4 &&
+        //         this.inputs[key].input_value.includes(" ") &&
+        //         this.inputs[key].input_value.replace(/[^a-zA-ZА-Яа-я]/g, "").length >= 4
+        //     ) {
+        //         this.$set(this.inputs[key], 'state', true)
+        //     } else if (this.inputs[key].input_value.length === 0) {
+        //         this.$set(this.inputs[key], 'state', null)
+        //     } else {
+        //         this.$set(this.inputs[key], 'state', false)
+        //     }
+        //     this.checkForms()
+        // },
         rulesInputAge(key) {
             if (this.inputs[key].input_value) {
-                this.$set(this.inputs[key], 'state', true)
+                if (this.inputs[key].input_value < 0 || this.inputs[key].input_value > 150) {
+                    this.$set(this.inputs[key], 'state', false);
+                    this.$set(this.inputs[key], 'mistake', 'Возраст должен быть в пределах от 0 до 150')
+                } else {
+                    this.$set(this.inputs[key], 'state', true)
+                }
             } else {
-                this.$set(this.inputs[key], 'state', false)
+                this.$set(this.inputs[key], 'state', false);
+                this.$set(this.inputs[key], 'mistake', 'Укажите возраст')
             }
             this.checkForms()
         },
@@ -223,9 +253,18 @@ export default {
         appointment() {
             // как пример неудачного срабатывания
             if (this.inputs[4].input_value === 'г Москва') {
-                this.$router.push('/error')
+                this.$router.push({ name: 'Error',
+                })
+                // this.$router.push('/error')
             } else {
-                this.$router.push('/success')
+                this.$router.push({ name: 'Success',
+                    params: {
+                        inputs: this.inputs,
+                        timeBegin: this.timeBegin,
+                        timeEnd: this.timeEnd,
+                    }
+                })
+                // this.$router.push('/success')
             }
         }
     },

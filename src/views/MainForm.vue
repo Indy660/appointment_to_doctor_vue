@@ -221,7 +221,12 @@ export default {
             }
         },
         appointment() {
-            this.$router.push('/success')
+            // как пример неудачного срабатывания
+            if (this.inputs[4].input_value === 'г Москва') {
+                this.$router.push('/error')
+            } else {
+                this.$router.push('/success')
+            }
         }
     },
 }

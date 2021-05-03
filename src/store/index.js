@@ -5,53 +5,51 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        inputs: {
-            1: {
-                id: 1,
-                input_value: '',
-                type: 'text',
-                description: 'Введите ваше ФИО',
-                tabel: 'Ваше ФИО',
-                state: null,
-                mistake: 'Заполните форму',
-                rules: ((key) => { this.rulesInputName(key) })
-            },
-            2: {
-                id: 2,
-                input_value: 0,
-                type: 'number',
-                description: 'Введите ваш возраст',
-                tabel: 'Ваш возраст',
-                state: null,
-                mistake: 'Укажите возраст',
-                rules: ((key) => { this.rulesInputAge(key) })
-
-            },
-            3: {
-                id: 3,
-                input_value: '',
-                type: 'date',
-                description: 'Введите дату записи',
-                tabel: 'Ваша дату',
-                state: null,
-                mistake: 'Заполните форму',
-                rules: ((key) => { this.rulesInputDate(key) })
-            },
-            4: {
-                id: 4,
-                input_value: '',
-                type: 'seek_city',
-                description: 'Введите город проживания',
-                tabel: 'Ваш город',
-                state: null,
-                mistake: 'Заполните форму',
-                // rules: ((key) => { this.rulesInputCity(key) })
-            },
-        },
-        // disableButton: true,
-        // timeZone: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
-        timeBegin: '',
-        timeEnd: '',
+        // inputs: {
+        //     1: {
+        //         id: 1,
+        //         input_value: '',
+        //         type: 'text',
+        //         description: 'Введите ваше ФИО',
+        //         tabel: 'Ваше ФИО',
+        //         state: null,
+        //         mistake: 'Заполните форму',
+        //         rules: ((key) => { this.rulesInputName(key) })
+        //     },
+        //     2: {
+        //         id: 2,
+        //         input_value: 0,
+        //         type: 'number',
+        //         description: 'Введите ваш возраст',
+        //         tabel: 'Ваш возраст',
+        //         state: null,
+        //         mistake: 'Укажите возраст',
+        //         rules: ((key) => { this.rulesInputAge(key) })
+        //
+        //     },
+        //     3: {
+        //         id: 3,
+        //         input_value: '',
+        //         type: 'date',
+        //         description: 'Введите дату записи',
+        //         tabel: 'Ваша дату',
+        //         state: null,
+        //         mistake: 'Заполните форму',
+        //         rules: ((key) => { this.rulesInputDate(key) })
+        //     },
+        //     4: {
+        //         id: 4,
+        //         input_value: '',
+        //         type: 'seek_city',
+        //         description: 'Введите город проживания',
+        //         tabel: 'Ваш город',
+        //         state: null,
+        //         mistake: 'Заполните форму',
+        //         // rules: ((key) => { this.rulesInputCity(key) })
+        //     },
+        // },
+        // timeBegin: '',
+        // timeEnd: '',
     },
     actions: {},
     getters: {},

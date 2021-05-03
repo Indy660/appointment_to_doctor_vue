@@ -3,9 +3,9 @@
         <b-row class="justify-content-md-center mt-4">
             <b-col col md="8">
                 <b-card
-                  header="Форма записи к врачу"
-                  header-bg-variant="primary"
-                  header-text-variant="white"
+                    header="Форма записи к врачу"
+                    header-bg-variant="primary"
+                    header-text-variant="white"
                 >
                     <b-card-text>
                         <b-form @submit.prevent="appointment()">
@@ -129,6 +129,7 @@ export default {
                 this.checkForms()
             }
         },
+        // Попытки отследить изменения в инпуте городов
         // input_value_city: {
         //     handler() {
         //         console.log(1)
@@ -137,6 +138,7 @@ export default {
         // }
     },
     computed: {
+        // Попытки отследить изменения в инпуте городов
         // input_value_city() {
         //     return this.inputs[4].input_value
         // }
@@ -178,9 +180,11 @@ export default {
         },
         rulesInputName(key) {
             //знаю, что можно сломать инпуты эту регулярку
-            if (this.inputs[key].input_value.length > 4 &&
+            // /[^a-zA-ZА-Яа-я ]$/.test(this.inputs[key].input_value)
+            if (
                 this.inputs[key].input_value.includes(" ") &&
-                this.inputs[key].input_value.replace(/[^a-zA-ZА-Яа-я]/g, "").length >= 4
+                this.inputs[key].input_value.replace(/[^a-zA-ZА-Яа-я]$/, "").length >= 4 &&
+                /^[a-zA-ZА-Яа-я ]+$/.test(this.inputs[key].input_value)
             ) {
                 this.$set(this.inputs[key], 'state', true)
             } else if (this.inputs[key].input_value.length === 0) {
@@ -237,7 +241,7 @@ export default {
         checkTime() {
             const timeBegin = this.timeBegin.slice(0, 2);
             const timeEnd = this.timeEnd.slice(0, 2);
-            // console.log(timeBegin, timeEnd)
+            console.log(timeBegin, timeEnd)
             // console.log(parseInt(timeEnd) > parseInt(timeBegin))
             if (parseInt(timeEnd) > parseInt(timeBegin)) {
                 return true

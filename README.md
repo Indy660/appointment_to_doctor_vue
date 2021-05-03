@@ -1,5 +1,4 @@
-https://indy660.github.io/appointment_to_doctor_vue/
-
+https://indy660.github.io/appointment_to_doctor_vue/dist/index.html
 Сделать SPA приложение для записи на прием к врачу.
 Использовать библиотеки: 
 •	Bootstrap 4 (https://bootstrap-vue.org/)
